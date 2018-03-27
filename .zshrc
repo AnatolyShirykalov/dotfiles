@@ -107,8 +107,10 @@ command_not_found_handler() {
 }
 
 ftrans() {
+  mask=*
+  if [[ $1 != "" ]]; then mask=$1; fi
   if [[ $(command -v trans) != "" ]]; then
-    for f in *.png; do
+    for f in $mask; do
       mv $f $(trans -f ru -t en $f -dump | jq ".[0] | .[0] | .[0]" | sed -E 's/"//g' | sed -E 's/ /_/g');
     done
   else
